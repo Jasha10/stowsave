@@ -49,8 +49,8 @@ mod util;
 
 use anyhow::{Context, Result};
 use clap::Parser;
-use std::path::{Path, PathBuf};
 use command_impl::CommandImpl;
+use std::path::{Path, PathBuf};
 use util::find_common_ancestor;
 
 #[derive(Debug)]

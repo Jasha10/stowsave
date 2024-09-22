@@ -89,7 +89,9 @@ mod tests {
         let temp_dir = TempDir::new().unwrap();
         let new_dir = temp_dir.path().join("new_directory");
         let nested_dir = new_dir.join("nested");
-        Command::CreateDirIfNotExists(nested_dir.clone()).invoke(true).unwrap();
+        Command::CreateDirIfNotExists(nested_dir.clone())
+            .invoke(true)
+            .unwrap();
 
         assert!(nested_dir.is_dir());
     }
@@ -100,10 +102,11 @@ mod tests {
         let new_dir = temp_dir.path().join("new_directory");
         let nested_dir = new_dir.join("nested");
         fs::create_dir_all(&nested_dir).unwrap();
-        Command::CreateDirIfNotExists(nested_dir.clone()).invoke(true).unwrap();
+        Command::CreateDirIfNotExists(nested_dir.clone())
+            .invoke(true)
+            .unwrap();
         assert!(nested_dir.is_dir());
     }
-
 
     #[test]
     fn test_move_file() {
@@ -121,7 +124,9 @@ mod tests {
         Command::MoveToDir {
             from: source.clone(),
             dir: dest_dir.clone(),
-        }.invoke(true).unwrap();
+        }
+        .invoke(true)
+        .unwrap();
 
         assert!(!source.exists());
         assert!(dest_file.exists());
@@ -146,7 +151,9 @@ mod tests {
         Command::MoveToDir {
             from: source_dir.clone(),
             dir: destination_dir.clone(),
-        }.invoke(true).unwrap();
+        }
+        .invoke(true)
+        .unwrap();
 
         assert!(!source_dir.exists());
         assert!(destination_dir.exists());
@@ -166,7 +173,9 @@ mod tests {
         Command::CreateBackup {
             original: source.clone(),
             backup_name: backup_name.to_string(),
-        }.invoke(true).unwrap();
+        }
+        .invoke(true)
+        .unwrap();
 
         let backup_path = source.with_file_name(backup_name);
         assert!(source.exists()); // The source file should still exist
@@ -194,7 +203,9 @@ mod tests {
         Command::CreateBackup {
             original: source_dir.clone(),
             backup_name: backup_name.to_string(),
-        }.invoke(true).unwrap();
+        }
+        .invoke(true)
+        .unwrap();
 
         let backup_dir = temp_path.join(backup_name);
         // Check if the backup directory exists
