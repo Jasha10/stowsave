@@ -1,6 +1,6 @@
 [package]
 name = "stowsave"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 license = "MIT"
 description = "Automates moving files into a stow directory then using stow to create symlinks back to where the files came from"
