@@ -24,10 +24,11 @@
 //! - `<STOW_PACKAGE>`: The directory where your Stow packages are stored
 //!
 //! What does the above do?
-//! - Creates a backup of the given <PATH_TO_SAVE> file or directory, backing up to <PATH_TO_SAVE>.bak.
-//!     - For directories, the backup is recursive
-//! - Move the original <PATH_TO_SAVE> to the given <STOW_PACKAGE>
-//! - Run `stow` to create symlinks from the <STOW_PACKAGE> to the original location of <PATH_TO_SAVE>.
+//! - Creates a backup of the given `<PATH_TO_SAVE>` file or directory, backing up to
+//! `<PATH_TO_SAVE>.bak`. For directories, the backup is recursive is a recursive copy operation.
+//! - Move the original `<PATH_TO_SAVE>` to the given `<STOW_PACKAGE>`.
+//! - Run `stow` to create symlinks from the `<STOW_PACKAGE>` to the original location of
+//! `<PATH_TO_SAVE>`.
 //!
 //! ## Example
 //! ```
