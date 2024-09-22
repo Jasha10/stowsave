@@ -20,4 +20,4 @@ jobs:
           cargo publish
           --verbose
           --locked
-          --token ${{ secrets.CARGO_PUBLISH_TOKEN }}
+          --token ${{ secrets.CARGO_PUBLISH_API_TOKEN }}
