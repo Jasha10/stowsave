@@ -52,7 +52,11 @@
 //     cmd.assert().success();
 //
 //     assert!(config_dir.with_extension("bak").exists());
-//     assert!(stow_dir.join(".config").join("nvim").join("init.vim").exists());
+//     assert!(stow_dir
+//         .join(".config")
+//         .join("nvim")
+//         .join("init.vim")
+//         .exists());
 //     assert!(config_dir.is_symlink());
 //
 //     Ok(())
@@ -123,4 +127,3 @@
 //
 //     Ok(())
 // }
-//
