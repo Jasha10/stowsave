@@ -5,5 +5,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bump version
-        uses: tj-actions/cargo-bump@3.0.1
+        uses: tj-actions/cargo-bump@v3.0.1
     runs-on: ubuntu-latest
