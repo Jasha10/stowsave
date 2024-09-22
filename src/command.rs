@@ -1,5 +1,6 @@
 //! This module contains the implementions for Commands that execute side effects to modify the
 //! filesytem.
+use std::fs;
 use std::path::PathBuf;
 use std::process::Command as ProcessCommand;
 
@@ -39,7 +40,7 @@ impl CommandImpl for Command {
                 if verbose {
                     println!("Creating directory: '{}'", path.display());
                 }
-                std::fs::create_dir_all(path).context("Failed to create directory")
+                fs::create_dir_all(path).context("Failed to create directory")
             }
             Command::MoveToDir { from, dest_dir } => {
                 if verbose {
@@ -57,7 +58,7 @@ impl CommandImpl for Command {
                 }
                 let backup_path = original.with_file_name(backup_name);
                 if original.is_file() {
-                    std::fs::copy(original, backup_path).context("Failed to create backup")?;
+                    fs::copy(original, backup_path).context("Failed to create backup")?;
                 } else if original.is_dir() {
                     fs_extra::dir::copy(
                         original,
@@ -141,10 +142,10 @@ mod tests {
         let temp_path = temp_dir.path();
         // create source file
         let source = temp_path.join("source.txt");
-        std::fs::write(&source, "test content").unwrap();
+        fs::write(&source, "test content").unwrap();
         // create dest dir
         let dest_dir = temp_path.join("dest_dir");
-        std::fs::create_dir(&dest_dir).unwrap();
+        fs::create_dir(&dest_dir).unwrap();
         let dest_file = dest_dir.join("source.txt");
 
         // move source file to dest dir
@@ -157,7 +158,7 @@ mod tests {
 
         assert!(!source.exists());
         assert!(dest_file.exists());
-        assert_eq!(std::fs::read_to_string(dest_file).unwrap(), "test content");
+        assert_eq!(fs::read_to_string(dest_file).unwrap(), "test content");
     }
 
     #[test]
@@ -166,13 +167,13 @@ mod tests {
         let temp_path = temp_dir.path();
         // create source dir
         let source_dir = temp_path.join("source_dir");
-        std::fs::create_dir(&source_dir).unwrap();
+        fs::create_dir(&source_dir).unwrap();
         // create file in source dir
         let file_in_source = source_dir.join("file.txt");
-        std::fs::write(&file_in_source, "test content").unwrap();
+        fs::write(&file_in_source, "test content").unwrap();
         // create dest dir
         let destination_dir = temp_path.join("destination_dir");
-        std::fs::create_dir(&destination_dir).unwrap(); // Create the destination directory
+        fs::create_dir(&destination_dir).unwrap(); // Create the destination directory
 
         // move source dir to dest dir
         Command::MoveToDir {
@@ -193,11 +194,11 @@ mod tests {
         let temp_dir = TempDir::new().unwrap();
         let temp_path = temp_dir.path();
         let source = temp_path.join("source.txt");
-        std::fs::write(&source, "test content").unwrap();
+        fs::write(&source, "test content").unwrap();
         let dest_dir = temp_path.join("dest_dir");
-        std::fs::create_dir(&dest_dir).unwrap();
+        fs::create_dir(&dest_dir).unwrap();
         let dest_file = dest_dir.join("source.txt");
-        std::fs::write(&dest_file, "existing content").unwrap();
+        fs::write(&dest_file, "existing content").unwrap();
 
         // Try to move source.txt to dest_dir
         let result = Command::MoveToDir {
@@ -211,12 +212,9 @@ mod tests {
 
         // Check the source and dest file contents
         assert!(source.exists());
-        assert_eq!(std::fs::read_to_string(source).unwrap(), "test content");
+        assert_eq!(fs::read_to_string(source).unwrap(), "test content");
         assert!(dest_file.exists());
-        assert_eq!(
-            std::fs::read_to_string(dest_file).unwrap(),
-            "existing content"
-        );
+        assert_eq!(fs::read_to_string(dest_file).unwrap(), "existing content");
     }
 
     #[test]
@@ -225,7 +223,7 @@ mod tests {
         let temp_path = temp_dir.path();
 
         let source = temp_path.join("source.txt");
-        std::fs::write(&source, "test content").unwrap();
+        fs::write(&source, "test content").unwrap();
 
         let backup_name = "source.txt.bak";
 
@@ -253,9 +251,9 @@ mod tests {
 
         // Create source directory and file
         let source_dir = temp_path.join("dir");
-        std::fs::create_dir_all(&source_dir).unwrap();
+        fs::create_dir_all(&source_dir).unwrap();
         let original_file = source_dir.join("file.txt");
-        std::fs::write(&original_file, "test content").unwrap();
+        fs::write(&original_file, "test content").unwrap();
 
         let backup_name = "dir.bak";
 
