@@ -14,4 +14,5 @@ debug_dump_src:
 readme:
   rg '//!' src/main.rs | sd '^//! ' '' | sd '^//!$' '' > README.md
   echo '' >> README.md
-  echo '<footer> This README file is generated based on the docs in `src/main.rs`. </footer>' >> README.md
+  echo '##' >> README.md
+  echo 'This README file is generated based on the docs in `src/main.rs`.' >> README.md
