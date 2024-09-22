@@ -74,11 +74,11 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use clap::Parser;
-use command_impl::{Command, CommandImpl};
+use command::{Command, CommandImpl};
 use util::find_common_ancestor;
 
 mod checks;
-mod command_impl;
+mod command;
 mod util;
 
 #[derive(Parser, Debug)]

@@ -1,6 +1,6 @@
 //! This module contains the implementions for Commands that execute side effects to modify the
 //! filesytem.
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::process::Command as ProcessCommand;
 
 use anyhow::{Context, Result};
