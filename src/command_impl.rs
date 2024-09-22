@@ -1,9 +1,10 @@
 //! This module contains the implementions for Commands that execute side effects to modify the
 //! filesytem.
-use anyhow::{Context, Result};
-use fs_extra::dir::CopyOptions;
 use std::path::{Path, PathBuf};
 use std::process::Command as ProcessCommand;
+
+use anyhow::{Context, Result};
+use fs_extra::dir::CopyOptions;
 
 /// Commands to execute side effects to modify the filesystem.
 #[derive(Debug)]
@@ -104,9 +105,11 @@ impl CommandImpl for Command {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::fs;
+
     use tempfile::TempDir;
+
+    use super::*;
 
     #[test]
     fn test_create_directory() {

@@ -70,16 +70,16 @@
 //! ```
 //! might be unwanted if the `.config` folder already contains some symlinks that point into the
 
-mod checks;
-mod command_impl;
-mod util;
+use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
 use clap::Parser;
-use command_impl::Command;
-use command_impl::CommandImpl;
-use std::path::{Path, PathBuf};
+use command_impl::{Command, CommandImpl};
 use util::find_common_ancestor;
+
+mod checks;
+mod command_impl;
+mod util;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]

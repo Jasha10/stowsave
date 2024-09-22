@@ -1,5 +1,6 @@
-use anyhow::Result;
 use std::path::Path;
+
+use anyhow::Result;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -62,10 +63,12 @@ pub(super) fn stow_directory_is_grandchild_of_common_ancestor(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::fs::File;
     use std::os::unix::fs as unix_fs;
+
     use tempfile::TempDir;
+
+    use super::*;
 
     #[test]
     fn test_stow_directory_is_grandchild_of_common_ancestor() {

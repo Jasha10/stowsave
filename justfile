@@ -11,7 +11,7 @@ test:
   cargo test
 
 fmt:
-  cargo fmt
+  cargo +nightly fmt
 
 watch recipe *args:
   watchexec --clear -e rs -- just {{ recipe }} {{ args }}

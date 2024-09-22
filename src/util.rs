@@ -25,8 +25,9 @@ pub(super) fn find_common_ancestor(path1: &Path, path2: &Path) -> PathBuf {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::path::Path;
+
+    use super::*;
 
     #[test]
     fn test_find_common_ancestor_same_path() {
