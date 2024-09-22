@@ -1,7 +1,31 @@
-use super::Command;
+//! This module contains the implementions for Commands that execute side effects to modify the
+//! filesytem.
 use anyhow::{Context, Result};
 use fs_extra::dir::CopyOptions;
+use std::path::{Path, PathBuf};
 use std::process::Command as ProcessCommand;
+
+/// Commands to execute side effects to modify the filesystem.
+#[derive(Debug)]
+pub(super) enum Command {
+    CreateDirIfNotExists(PathBuf),
+    /// Move a file or directory into another directory.
+    /// Error if `dir/dest_dir` already exists.
+    MoveToDir {
+        /// The file or directory to move.
+        from: PathBuf,
+        /// The directory into which to move.
+        dest_dir: PathBuf,
+    },
+    CreateBackup {
+        original: PathBuf,
+        backup_name: String,
+    },
+    RunStow {
+        pwd: PathBuf,
+        package: String,
+    },
+}
 
 pub(super) trait CommandImpl {
     fn invoke(&self, verbose: bool) -> Result<()>;
@@ -16,11 +40,11 @@ impl CommandImpl for Command {
                 }
                 std::fs::create_dir_all(path).context("Failed to create directory")
             }
-            Command::MoveToDir { from, dir } => {
+            Command::MoveToDir { from, dest_dir } => {
                 if verbose {
-                    println!("Moving '{}' to '{}'", from.display(), dir.display());
+                    println!("Moving '{}' to '{}'", from.display(), dest_dir.display());
                 }
-                fs_extra::move_items(&vec![from], dir, &CopyOptions::new())?;
+                fs_extra::move_items(&vec![from], dest_dir, &CopyOptions::new())?;
                 Ok(())
             }
             Command::CreateBackup {
@@ -123,7 +147,7 @@ mod tests {
         // move source file to dest dir
         Command::MoveToDir {
             from: source.clone(),
-            dir: dest_dir.clone(),
+            dest_dir: dest_dir.clone(),
         }
         .invoke(true)
         .unwrap();
@@ -150,7 +174,7 @@ mod tests {
         // move source dir to dest dir
         Command::MoveToDir {
             from: source_dir.clone(),
-            dir: destination_dir.clone(),
+            dest_dir: destination_dir.clone(),
         }
         .invoke(true)
         .unwrap();
@@ -158,6 +182,38 @@ mod tests {
         assert!(!source_dir.exists());
         assert!(destination_dir.exists());
         assert!(destination_dir.join("source_dir").join("file.txt").exists());
+    }
+
+    #[test]
+    fn test_move_to_dir_error_if_target_already_exists() {
+        // Create source.txt and dest_dir/source.txt
+        let temp_dir = TempDir::new().unwrap();
+        let temp_path = temp_dir.path();
+        let source = temp_path.join("source.txt");
+        std::fs::write(&source, "test content").unwrap();
+        let dest_dir = temp_path.join("dest_dir");
+        std::fs::create_dir(&dest_dir).unwrap();
+        let dest_file = dest_dir.join("source.txt");
+        std::fs::write(&dest_file, "existing content").unwrap();
+
+        // Try to move source.txt to dest_dir
+        let result = Command::MoveToDir {
+            from: source.clone(),
+            dest_dir: dest_dir.clone(),
+        }
+        .invoke(true);
+
+        // Check that the error message is correct
+        assert!(result.is_err());
+
+        // Check the source and dest file contents
+        assert!(source.exists());
+        assert_eq!(std::fs::read_to_string(source).unwrap(), "test content");
+        assert!(dest_file.exists());
+        assert_eq!(
+            std::fs::read_to_string(dest_file).unwrap(),
+            "existing content"
+        );
     }
 
     #[test]

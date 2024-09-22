@@ -8,7 +8,7 @@ readme:
   echo 'This README file is generated based on the docs in `src/main.rs`.' >> README.md
 
 test:
-  cargo test --verbose
+  cargo test
 
 fmt:
   cargo fmt

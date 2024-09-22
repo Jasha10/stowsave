@@ -63,6 +63,12 @@ This command will:
         was.
         - remove empty directorie(s) within the stow package that contained the file that's
         been moved.
+- [ ] ask for confirmation if it seems that the user is going to stow a directory that contains
+symlinks that point into the current or another stow package. For example, running
+```
+stowsave .config ~/dotfiles/pkg
+```
+might be unwanted if the `.config` folder already contains some symlinks that point into the
 
 ##
 This README file is generated based on the docs in `src/main.rs`.

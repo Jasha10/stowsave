@@ -63,6 +63,12 @@
 //!         was.
 //!         - remove empty directorie(s) within the stow package that contained the file that's
 //!         been moved.
+//! - [ ] ask for confirmation if it seems that the user is going to stow a directory that contains
+//! symlinks that point into the current or another stow package. For example, running
+//! ```
+//! stowsave .config ~/dotfiles/pkg
+//! ```
+//! might be unwanted if the `.config` folder already contains some symlinks that point into the
 
 mod checks;
 mod command_impl;
@@ -70,26 +76,10 @@ mod util;
 
 use anyhow::{Context, Result};
 use clap::Parser;
+use command_impl::Command;
 use command_impl::CommandImpl;
 use std::path::{Path, PathBuf};
 use util::find_common_ancestor;
-
-#[derive(Debug)]
-enum Command {
-    CreateDirIfNotExists(PathBuf),
-    MoveToDir {
-        from: PathBuf,
-        dir: PathBuf,
-    },
-    CreateBackup {
-        original: PathBuf,
-        backup_name: String,
-    },
-    RunStow {
-        pwd: PathBuf,
-        package: String,
-    },
-}
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -160,7 +150,7 @@ fn collect_commands(args: &Args) -> Result<Vec<Command>> {
 
     commands.push(Command::MoveToDir {
         from: path_to_save.clone(),
-        dir: target_dir,
+        dest_dir: target_dir,
     });
 
     let stow_package = stow_pkg.file_name().unwrap().to_str().unwrap().to_string();
