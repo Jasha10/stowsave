@@ -1,32 +1,33 @@
 # StowSave
 
-This command line utility copies your precious dotfiles (or others) into a local stow directory
-then drives GNU stow to create symlinks to to those dotfiles.
+`stowsave` automates the process of moving files from their original location to a Stow package
+directory then running GNU stow to create symlinks. Backups of the original files are created
+to prevent data loss.
 
-For example, say your working on `~/dev/project/my_script`. You can invoke
+For example, say your working on `~/dev/project/my_script`. Invoking `stowsave` as
 
 ```
 stowsave ~/dev/project/my_script ~/my/stow/directory
 ```
 
-to move `my_script` to (1) move `~/dev/project/my_script` to `~/my_stow_directory/
-StowSave is a command-line utility that helps manage dotfiles and other configuration files using
-GNU Stow. It automates the process of moving files from their original location to a Stow package
-directory, then running Stow to create symlinks. Backups of the original files are created to
-prevent data loss.
+will do the following:
+  1. create a backup of `~/dev/project/my_script` at `~/dev/project/my_script.bak`,
+  2. move `~/dev/project/my_script` to `~/my/stow/directory/dev/project/my_script`, and
+  3. run `stow` in `~/my/stow/directory` to create a symlink at `~/dev/project/my_script`
+     pointing to `~/my/stow/directory/dev/project/my_script`.
 
 ## Usage
 ```
-stowsave <PATH_TO_SAVE> <STOW_DIRECTORY>
+stowsave <PATH_TO_SAVE> <STOW_PACKAGE>
 ```
 - `<PATH_TO_SAVE>`: The path to the file or directory you want to save
-- `<STOW_DIRECTORY>`: The directory where your Stow packages are stored
+- `<STOW_PACKAGE>`: The directory where your Stow packages are stored
 
 What does the above do?
 - Creates a backup of the given <PATH_TO_SAVE> file or directory, backing up to <PATH_TO_SAVE>.bak.
     - For directories, the backup is recursive
-- Move the original <PATH_TO_SAVE> to the given <STOW_DIRECTORY>
-- Run `stow` to create symlinks from the <STOW_DIRECTORY> to the original location of <PATH_TO_SAVE>.
+- Move the original <PATH_TO_SAVE> to the given <STOW_PACKAGE>
+- Run `stow` to create symlinks from the <STOW_PACKAGE> to the original location of <PATH_TO_SAVE>.
 
 ## Example
 ```
