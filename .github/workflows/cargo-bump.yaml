@@ -1,7 +1,10 @@
+name: CargoVersionBump
+# bump Cargo.toml version
+# based on git tag
 on:
-  "push": {"branches": ["main"]}
+  "push": {"tags": ["v*"]}
 jobs:
-  build_and_test:
+  cargo_bump:
     steps:
       - uses: actions/checkout@v4
       - name: Bump version
