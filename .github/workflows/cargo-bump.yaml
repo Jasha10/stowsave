@@ -1,0 +1,9 @@
+on:
+  "push": {"branches": ["main"]}
+jobs:
+  build_and_test:
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version
+        uses: tj-actions/cargo-bump@3.0.1
+    runs-on: ubuntu-latest
