@@ -41,3 +41,5 @@ This command will:
 
 - Rust (for building)
 - GNU Stow
+
+<footer> This README file is generated based on the docs in `src/main.rs`. </footer>

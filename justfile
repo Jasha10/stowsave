@@ -13,3 +13,5 @@ debug_dump_src:
 # Update the README.md file with the contents of the main.rs file
 readme:
   rg '//!' src/main.rs | sd '^//! ' '' | sd '^//!$' '' > README.md
+  echo '' >> README.md
+  echo '<footer> This README file is generated based on the docs in `src/main.rs`. </footer>' >> README.md
