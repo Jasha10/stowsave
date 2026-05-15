@@ -1,0 +1,19 @@
+CLAUDE.md
+  s_6ca3d56e110dd4::t_637714a126bfb3 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "5af4299879565b052eb4d1ebb826755fd764b576",
+  "prompts": {},
+  "sessions": {
+    "s_6ca3d56e110dd4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4feb4c93-ddd5-406f-9b14-3d2d13679db0",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Jasha <jsimpson@hiddenroad.com>"
+    }
+  }
+}
