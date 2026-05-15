@@ -29,23 +29,45 @@ pub(super) enum Command {
     },
 }
 
+impl std::fmt::Display for Command {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Command::CreateDirIfNotExists(p) => {
+                write!(f, "Create directory '{}'", p.display())
+            }
+            Command::MoveToDir { from, dest_dir } => {
+                write!(f, "Move '{}' into '{}'", from.display(), dest_dir.display())
+            }
+            Command::CreateBackup {
+                original,
+                backup_name,
+            } => write!(
+                f,
+                "Back up '{}' to '{}'",
+                original.display(),
+                original.with_file_name(backup_name).display()
+            ),
+            Command::RunStow { pwd, package } => {
+                write!(f, "Run 'stow {}' in '{}'", package, pwd.display())
+            }
+        }
+    }
+}
+
 pub(super) trait CommandImpl {
     fn invoke(&self, verbose: bool) -> Result<()>;
 }
 
 impl CommandImpl for Command {
     fn invoke(&self, verbose: bool) -> Result<()> {
+        if verbose {
+            println!("{}", self);
+        }
         match self {
             Command::CreateDirIfNotExists(path) => {
-                if verbose {
-                    println!("Creating directory: '{}'", path.display());
-                }
                 fs::create_dir_all(path).context("Failed to create directory")
             }
             Command::MoveToDir { from, dest_dir } => {
-                if verbose {
-                    println!("Moving '{}' to '{}'", from.display(), dest_dir.display());
-                }
                 fs_extra::move_items(&vec![from], dest_dir, &CopyOptions::new())?;
                 Ok(())
             }
@@ -53,9 +75,6 @@ impl CommandImpl for Command {
                 original,
                 backup_name,
             } => {
-                if verbose {
-                    println!("Creating backup directory: '{}'", backup_name);
-                }
                 let backup_path = original.with_file_name(backup_name);
                 if original.is_file() {
                     fs::copy(original, backup_path).context("Failed to create backup")?;
@@ -72,13 +91,6 @@ impl CommandImpl for Command {
             }
 
             Command::RunStow { pwd, package } => {
-                if verbose {
-                    println!(
-                        "Running 'stow {}' in directory '{}'",
-                        package,
-                        pwd.display()
-                    );
-                }
                 let output = ProcessCommand::new("stow")
                     .arg(package)
                     .current_dir(pwd)
@@ -111,6 +123,38 @@ mod tests {
     use tempfile::TempDir;
 
     use super::*;
+
+    #[test]
+    fn test_display_for_each_variant() {
+        assert_eq!(
+            Command::CreateDirIfNotExists(PathBuf::from("/a/b")).to_string(),
+            "Create directory '/a/b'"
+        );
+        assert_eq!(
+            Command::MoveToDir {
+                from: PathBuf::from("/a/file"),
+                dest_dir: PathBuf::from("/b"),
+            }
+            .to_string(),
+            "Move '/a/file' into '/b'"
+        );
+        assert_eq!(
+            Command::CreateBackup {
+                original: PathBuf::from("/a/file"),
+                backup_name: "file.bak".to_string(),
+            }
+            .to_string(),
+            "Back up '/a/file' to '/a/file.bak'"
+        );
+        assert_eq!(
+            Command::RunStow {
+                pwd: PathBuf::from("/dotfiles"),
+                package: "vim".to_string(),
+            }
+            .to_string(),
+            "Run 'stow vim' in '/dotfiles'"
+        );
+    }
 
     #[test]
     fn test_create_directory() {

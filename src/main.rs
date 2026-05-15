@@ -22,10 +22,11 @@
 //!
 //! ## Usage
 //! ```
-//! stowsave <PATH_TO_SAVE> <STOW_PACKAGE>
+//! stowsave [--dry-run] <PATH_TO_SAVE> <STOW_PACKAGE>
 //! ```
 //! - `<PATH_TO_SAVE>`: The path to the file or directory you want to save
 //! - `<STOW_PACKAGE>`: The directory where your Stow packages are stored
+//! - `-n`, `--dry-run`: Print the planned actions without modifying the filesystem
 //!
 //! What does the above do?
 //! - Creates a backup of the given `<PATH_TO_SAVE>` file or directory, backing up to
@@ -93,6 +94,10 @@ struct Args {
     /// Enable verbose output
     #[arg(short, long)]
     verbose: bool,
+
+    /// Print the planned actions without modifying the filesystem
+    #[arg(short = 'n', long = "dry-run")]
+    dry_run: bool,
 }
 
 fn main() -> Result<()> {
@@ -100,12 +105,19 @@ fn main() -> Result<()> {
 
     let commands = collect_commands(&args)?;
 
-    execute_commands(commands, args.verbose)?;
+    if args.dry_run {
+        println!("Dry run — no changes will be made.");
+        for cmd in &commands {
+            println!("  {}", cmd);
+        }
+    } else {
+        execute_commands(commands, args.verbose)?;
 
-    // TODO:
-    // checks::check_that_symlink_has_been_created(&args.path_to_save, &args.stow_package)?;
+        // TODO:
+        // checks::check_that_symlink_has_been_created(&args.path_to_save, &args.stow_package)?;
 
-    println!("Path successfully saved, backed up, and stowed");
+        println!("Path successfully saved, backed up, and stowed");
+    }
     Ok(())
 }
 

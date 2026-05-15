@@ -22,10 +22,11 @@ will do the following:
 
 ## Usage
 ```
-stowsave <PATH_TO_SAVE> <STOW_PACKAGE>
+stowsave [--dry-run] <PATH_TO_SAVE> <STOW_PACKAGE>
 ```
 - `<PATH_TO_SAVE>`: The path to the file or directory you want to save
 - `<STOW_PACKAGE>`: The directory where your Stow packages are stored
+- `-n`, `--dry-run`: Print the planned actions without modifying the filesystem
 
 What does the above do?
 - Creates a backup of the given `<PATH_TO_SAVE>` file or directory, backing up to
