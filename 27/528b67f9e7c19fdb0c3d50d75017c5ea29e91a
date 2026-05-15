@@ -1,0 +1,21 @@
+justfile
+  s_6ca3d56e110dd4::t_8dc13700507436 20
+  s_6ca3d56e110dd4::t_6b39054c229c0a 16-19,21-95
+  s_6ca3d56e110dd4::t_73eb7181722c86 96-112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "27528b67f9e7c19fdb0c3d50d75017c5ea29e91a",
+  "prompts": {},
+  "sessions": {
+    "s_6ca3d56e110dd4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4feb4c93-ddd5-406f-9b14-3d2d13679db0",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Jasha <jsimpson@hiddenroad.com>"
+    }
+  }
+}
