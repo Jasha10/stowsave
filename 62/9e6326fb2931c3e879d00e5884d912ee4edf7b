@@ -1,0 +1,22 @@
+justfile
+  s_6ca3d56e110dd4::t_8dc13700507436 20
+  s_6ca3d56e110dd4::t_73eb7181722c86 97-113
+  s_6ca3d56e110dd4::t_6b39054c229c0a 16-19,21-22,26-96
+  s_6ca3d56e110dd4::t_8a406aca55c1c6 23-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "629e6326fb2931c3e879d00e5884d912ee4edf7b",
+  "prompts": {},
+  "sessions": {
+    "s_6ca3d56e110dd4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4feb4c93-ddd5-406f-9b14-3d2d13679db0",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": null
+    }
+  }
+}
