@@ -1,0 +1,26 @@
+README.md
+  s_6ca3d56e110dd4::t_d3ada1b3480599 25,29
+src/main.rs
+  s_6ca3d56e110dd4::t_d3c204860d53f0 25,29
+  s_6ca3d56e110dd4::t_ad465852563ca7 97-100
+  s_6ca3d56e110dd4::t_0cf9d9161f5d48 108-112
+src/command.rs
+  s_6ca3d56e110dd4::t_fa36cf499cee34 128-158
+  s_6ca3d56e110dd4::t_c78228fe297605 32-56,63-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "9c6930c2b1ff770b516921969a0fefdfa50c346e",
+  "prompts": {},
+  "sessions": {
+    "s_6ca3d56e110dd4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4feb4c93-ddd5-406f-9b14-3d2d13679db0",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Jasha <jsimpson@hiddenroad.com>"
+    }
+  }
+}
